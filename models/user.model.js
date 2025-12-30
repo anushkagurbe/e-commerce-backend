@@ -7,6 +7,11 @@ let userSchema = mongoose.Schema({
         unique: true,
         trim: true
     },
+    fullName: {
+        type: String,
+        required: true,
+        trim: true
+    },
     email: {
         type: String,
         required: true,
@@ -18,7 +23,7 @@ let userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    profileimage: {
+    profileImage: {
         type: String,
         default: ""
     },
@@ -29,7 +34,11 @@ let userSchema = mongoose.Schema({
     },
     gender: {
         type: String,
-        required: true
+        required: true,
+        enum: ["male","female","other"]
+    },
+    refreshToken: {
+        type: String
     }
 },
 {

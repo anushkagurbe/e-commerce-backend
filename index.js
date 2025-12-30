@@ -1,16 +1,19 @@
+import "dotenv/config";
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import { dbconnection } from "./config/dbconnect.js";
+import userRoutes from "./routes/user.routes.js";
 
 let app = express();
 
+
 app.use(cors());
-dotenv.config();
-await dbconnection();
+dbconnection();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static("public"));
 
+app.use("/api/v1/users",userRoutes);
 
 app.listen(process.env.PORT, ()=>{
     console.log("Server is running on PORT "+process.env.PORT);
