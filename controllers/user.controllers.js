@@ -116,3 +116,37 @@ export let logoutUserController = async(req,res)=>{
         return res.status(500).json({success: false, msg: "Internal server error"});
     }
 }
+
+export let updatePasswordController = async(req,res)=>{
+    try
+    {
+        let { oldPassword, newPassword } = req.body;
+        let userid = req.params.userid;
+        if(!oldPassword || !newPassword)
+        {
+            return res.status(400).json({success: false, msg: "All fields are required"})
+        } 
+        if(req.user._id.toString() !== userid)
+        {
+            return res.status(401).json({success: false, msg: "Unauthorized user"})
+        }
+        let user = await userModel.findOne({_id: userid},{password: 1});
+        let isValidOldPassword = await bcrypt.compare(oldPassword, user.password);
+        if(!isValidOldPassword)
+        {
+            return res.status(400).json({success: false, msg: "Incorrect old password"})
+        }
+        if(oldPassword == newPassword)
+        {
+            return res.status(400).json({success: false, msg: "Old and new password cannot be same"})
+        }
+        let hashedPassword = await bcrypt.hash(newPassword, 10);
+        await userModel.updateOne({_id: userid}, {$set: {password: hashedPassword}});
+        return res.status(200).json({success: true, msg: "Password updated successfully"});
+    }
+    catch(error)
+    {
+        console.log(error);
+        return res.status(500).json({success: false, msg: "Internal server error"})
+    }
+}

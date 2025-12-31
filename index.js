@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { dbconnection } from "./config/dbconnect.js";
 import userRoutes from "./routes/user.routes.js";
+import categoriesRoutes from "./routes/category.routes.js";
 
 let app = express();
 
@@ -14,6 +15,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 app.use("/api/v1/users",userRoutes);
+app.use("/api/v1/categories",categoriesRoutes)
 
 app.listen(process.env.PORT, ()=>{
     console.log("Server is running on PORT "+process.env.PORT);
