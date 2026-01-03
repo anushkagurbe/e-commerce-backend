@@ -77,6 +77,7 @@ export let loginUserController = async(req,res)=>{
         await userModel.updateOne({_id: isUserExist._id}, {$set: {refreshToken: refreshToken}});
         return res.status(200)
         .cookie("refreshToken",refreshToken,options)
+        .cookie("accessToken", accessToken, options)
         .json({
             success: true, 
             user: {

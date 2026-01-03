@@ -5,6 +5,7 @@ import { dbconnection } from "./config/dbconnect.js";
 import userRoutes from "./routes/user.routes.js";
 import categoriesRoutes from "./routes/category.routes.js";
 import productsRoutes from "./routes/product.routes.js";
+import cartRoutes from "./routes/cart.routes.js";
 
 let app = express();
 
@@ -18,6 +19,7 @@ app.use(express.static("public"));
 app.use("/api/v1/users",userRoutes);
 app.use("/api/v1/categories",categoriesRoutes);
 app.use("/api/v1/products",productsRoutes);
+app.use("/api/v1/cart",cartRoutes)
 
 app.listen(process.env.PORT, ()=>{
     console.log("Server is running on PORT "+process.env.PORT);
